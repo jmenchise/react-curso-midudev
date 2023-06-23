@@ -6,8 +6,16 @@ const TurnSection = ({ turn }) => {
 
    return (
       <section className='turn'>
-         {<SquareBoard isSelected={turn === TURNS.X}>{TURNS.X}</SquareBoard>}
-         {<SquareBoard isSelected={turn === TURNS.O}>{TURNS.O}</SquareBoard>}
+         {
+            <SquareBoard isSelected={turn === TURNS.X} turnSquare>
+               {TURNS.X}
+            </SquareBoard>
+         }
+         {
+            <SquareBoard isSelected={turn === TURNS.O} turnSquare>
+               {TURNS.O}
+            </SquareBoard>
+         }
       </section>
    )
 }

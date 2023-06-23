@@ -10,7 +10,7 @@ const WinnerModal = ({ winner, resetGame }) => {
                {winner === false ? 'Empate!' : 'Ganó:'}
             </h2>
             <header className='win'>
-               {winner && <SquareBoard>{winner}</SquareBoard>}
+               {winner && <SquareBoard winnerSquare>{winner}</SquareBoard>}
             </header>
             <footer>
                <ResetButton resetGame={resetGame} />

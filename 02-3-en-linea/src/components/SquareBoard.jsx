@@ -1,16 +1,25 @@
 import React from 'react'
 
-const SquareBoard = ({ children, updateBoard, isSelected, index }) => {
-   
-   const handleClick = () => {
-         updateBoard(index);
-         /* TODO: updateBoard solo debe poder utilizarse en el tablero.
-            y no en el componente de turnos ni en el de Winner
-         */
+const SquareBoard = ({ children, updateBoard, isSelected, index, turnSquare, winnerSquare }) => {
+
+   const handleClick = e => {
+      if (
+         e.target.classList.contains('turn-square') ||
+         e.target.classList.contains('winner-square')
+      ) {
+         return
+      }
+      updateBoard(index);
    }
 
    return (
-      <div onClick={handleClick}>
+      <div
+         className={
+            `${turnSquare ? 'turn-square' : ''}
+            ${winnerSquare ? 'winner-square' : ''}`
+         }
+         onClick={e => { handleClick(e) }}
+      >
          <span className={`square ${isSelected ? 'is-selected' : ''}`}>
             {children}
          </span>

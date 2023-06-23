@@ -3,10 +3,26 @@ import { TURNS, WINNER_COMBINATIONS } from '../const';
 import confetti from 'canvas-confetti';
 
 const useGame = () => {
-   const [board, setBoard] = useState(Array(9).fill(null));
-   const [turn, setTurn] = useState(TURNS.X);
+   const [board, setBoard] = useState(() => {
+      const boardFromStorage = window.localStorage.getItem('board');
+      return boardFromStorage ? JSON.parse(boardFromStorage) : Array(9).fill(null);
+   });
+   const [turn, setTurn] = useState(() => {
+      const turnFromStorage = window.localStorage.getItem('turn');
+      return turnFromStorage ? JSON.parse(turnFromStorage) : TURNS.X;
+   });
    const [winner, setWinner] = useState(null);
 
+
+   const saveGameToStorage = (boardToSave, turnToSave) => {
+      window.localStorage.setItem('board', JSON.stringify(boardToSave));
+      window.localStorage.setItem('turn', JSON.stringify(turnToSave));
+   }
+
+   const resetGameToStorage = () => {
+      window.localStorage.removeItem('board');
+      window.localStorage.removeItem('turn');
+   }
 
    const checkWinner = (boardToCheck) => {
       for (let combination of WINNER_COMBINATIONS) {
@@ -31,7 +47,9 @@ const useGame = () => {
       const newBoard = [...board];
       newBoard[index] = turn;
       setBoard(newBoard);
-      setTurn(turn === TURNS.X ? TURNS.O : TURNS.X);
+      const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X;
+      setTurn(newTurn);
+      saveGameToStorage(newBoard, newTurn);
       const newWinner = checkWinner(newBoard);
       if (newWinner) {
          confetti();
@@ -45,6 +63,7 @@ const useGame = () => {
       setBoard(Array(9).fill(null));
       setTurn(TURNS.X);
       setWinner(null);
+      resetGameToStorage();
    }
 
    return {
