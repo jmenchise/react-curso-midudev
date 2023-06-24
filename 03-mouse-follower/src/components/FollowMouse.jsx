@@ -5,6 +5,8 @@ const FollowMouse = () => {
    const [enabled, setEnabled] = useState(false);
    const [position, setPosition] = useState({ x: 0, y: 0 });
 
+   // un useEffect para controlar agregar el evento de pointer move y cargar
+   // las coordenadas del mouse en un estado.
    useEffect(() => {
       const handleMove = e => {
          const { clientX, clientY } = e;
@@ -17,7 +19,19 @@ const FollowMouse = () => {
       return () => {
          window.removeEventListener('pointermove', handleMove);
       }
+   }, [enabled]);
 
+
+   // otro useEffect que se encarga de agregar y quitar una clase en particular,
+   // para ocultar el puntero del mouse cuando se activa el seguidor del cursor.
+   useEffect(() => {
+      document.querySelector('body').classList.toggle('no-cursor', enabled);
+      document.querySelector('button').classList.toggle('no-cursor', enabled);
+      
+      return () => {
+         document.querySelector('body').classList.remove('no-cursor');
+         document.querySelector('button').classList.remove('no-cursor');
+      }
    }, [enabled]);
 
    return (
@@ -38,7 +52,7 @@ const FollowMouse = () => {
             {enabled ? 'Desactivar' : 'Activar'} Seguir Puntero
          </button>
       </main>
-   )
+   );
 }
 
 export default FollowMouse;

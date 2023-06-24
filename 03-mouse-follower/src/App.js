@@ -1,4 +1,3 @@
-import './App.css';
 import FollowMouse from './components/FollowMouse';
 
 
@@ -6,7 +5,7 @@ import FollowMouse from './components/FollowMouse';
 export default function App() {
 
   return (
-    <div>
+    <div className='App'>
       <FollowMouse />
     </div>
   );
