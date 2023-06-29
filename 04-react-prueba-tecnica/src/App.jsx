@@ -1,42 +1,31 @@
-import React, { useEffect, useState } from 'react'
-import './app.css'
+import React from 'react';
+import './app.css';
+import useCatFact from './hooks/useCatFact';
+import useCatImage from './hooks/useCatImage';
+
 
 export default function App() {
-   const [fact, setFact] = useState('');
-   const [imgUrl, setImgUrl] = useState('');
-
-   useEffect(() => {
-      fetch('https://catfact.ninja/fact')
-         .then(res => {
-            if (!res.ok) {
-               throw new Error('Error al conectar con el servidor.');
-            }
-            return res.json()
-         })
-         .then(data => setFact(data.fact))
-         .catch(err => console.log(err))
-   }, []);
-
-   useEffect(() => {
-      if (!fact) {
-         return
-      }
-      const firstWord = fact.split(' ')[0];
-      fetch(`https://cataas.com/cat/says/${firstWord}`)
-         .then(res => setImgUrl(res.url));
-   }, [fact])
-
+   const { fact, getRandomFact } = useCatFact();
+   const { imgUrl } = useCatImage({ fact });
+   const handleClick = () => {
+      getRandomFact();
+   }
 
    return (
       <main>
          <h1>App de gatitos</h1>
-         {fact && <p>{fact}</p>}
-         {imgUrl ?
-            <div>
-               <img src={imgUrl} alt={`Random image extracted from "https://cataas.com" API`} />
-            </div>
-            : <h3>Cargando imagen</h3>
-         }
+         <button onClick={handleClick}>
+            Get new Fact!
+         </button>
+         {fact && (imgUrl ?
+            <>
+               <p>{fact}</p>
+               <div>
+                  <img src={imgUrl} alt={`Random image extracted from "https://cataas.com" API`} />
+               </div>
+            </>
+            : <h3>Cargando la imagen</h3>
+         )}
       </main>
    );
 }
