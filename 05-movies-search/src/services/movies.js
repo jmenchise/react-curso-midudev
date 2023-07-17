@@ -5,7 +5,7 @@ export async function searchMovies(query) {
       return;
    };
    try {
-      const response = await fetch(`http://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`);
+      const response = await fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`);
       const jsonResponse = await response.json();
       const results = jsonResponse.Search;
       return results?.map(movie => ({
