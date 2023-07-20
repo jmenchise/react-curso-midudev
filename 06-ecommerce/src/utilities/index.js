@@ -1,0 +1,1 @@
+export const checkIfIsInArr = (item, arr) => arr.some(itemArr => item.id === itemArr.id);
