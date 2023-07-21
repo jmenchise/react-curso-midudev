@@ -2,10 +2,11 @@ import React from 'react';
 import { CartIcon, ClearCartIcon } from '../Icons/Icons';
 import './Cart.css';
 import useCart from '../../hooks/useCart';
+import CartItem from './CartItem';
 
 const Cart = () => {
    const { cart, clearCart, addToCart } = useCart();
-   
+
    return (
       <div>
          <label htmlFor="cart" className="cart-button">
@@ -15,18 +16,11 @@ const Cart = () => {
          <aside className="cart">
             <ul>
                {cart.map(product => (
-                  <li>
-                     <img src={product.thumbnail} alt={product.title} />
-                     <div>
-                        <strong>{product.title}</strong> - ${product.price}
-                     </div>
-                     <footer>
-                        <small>
-                           Cantidad: {product.count}
-                        </small>
-                        <button onClick={() => { addToCart(product) }}>+</button>
-                     </footer>
-                  </li>
+                  <CartItem
+                     key={product.id}
+                     addToCart={() => addToCart(product)}
+                     {...product}
+                  />
                ))}
             </ul>
             <button onClick={clearCart}>
