@@ -1,4 +1,3 @@
-import React from 'react';
 import { CartIcon, ClearCartIcon } from '../Icons/Icons';
 import './Cart.css';
 import useCart from '../../hooks/useCart';

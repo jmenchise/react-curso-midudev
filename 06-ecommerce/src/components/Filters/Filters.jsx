@@ -1,6 +1,5 @@
 import useFilters from '../../hooks/useFilters';
 import './Filters.css';
-import React from 'react';
 
 const Filters = () => {
    const { filters, changeFilterCategory, changeFilterPrice } = useFilters();

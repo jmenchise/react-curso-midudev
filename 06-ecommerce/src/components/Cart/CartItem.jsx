@@ -1,4 +1,4 @@
-import React from 'react'
+
 
 const CartItem = ({ thumbnail, title, price, count, addToCart }) => {
 

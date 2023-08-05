@@ -1,4 +1,3 @@
-import React from 'react';
 import './Products.css';
 import { AddToCartIcon, RemoveFromCartIcon } from '../Icons/Icons';
 import { checkIfIsInArr } from '../../utilities';
