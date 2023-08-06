@@ -1,8 +1,16 @@
 /* eslint-disable indent */
+import { useContext } from 'react'
+import { Todos } from './components/Todos'
+import { TodosContext } from './context/TodosProvider'
 
 const App = (): JSX.Element => {
+  const { todos } = useContext<any>(TodosContext)
   return (
-    <h1>todo mvc</h1>
+    <div className="todoapp">
+      <Todos
+        todos={todos}
+      />
+    </div>
   )
 }
 
