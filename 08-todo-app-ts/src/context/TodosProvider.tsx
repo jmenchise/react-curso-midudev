@@ -1,12 +1,17 @@
 /* eslint-disable @typescript-eslint/indent */
 import React, { createContext, useState } from 'react'
-import { type TodoId } from '../types'
+import { type ContextHandleRemoveType, type ContextHandleCompleteType, type Context } from '../types'
 
-export const TodosContext = createContext({})
-
+const initialState = {
+   todos: [],
+   handleRemove: () => { },
+   handleComplete: () => { }
+}
 interface Props {
    children: JSX.Element
 }
+
+export const TodosContext = createContext<Context>(initialState)
 
 const TodosProvider: React.FC<Props> = ({ children }) => {
    const mockTodos = [
@@ -28,15 +33,29 @@ const TodosProvider: React.FC<Props> = ({ children }) => {
    ]
    const [todos, setTodos] = useState(mockTodos)
 
-   const handleRemove = ({ id }: TodoId): void => {
+   const handleRemove: ContextHandleRemoveType = ({ id }) => {
       const newTodos = todos.filter(todo => todo.id !== id)
+      setTodos(newTodos)
+   }
+
+   const handleComplete: ContextHandleCompleteType = ({ id, completed }) => {
+      const newTodos = todos.map(todo => {
+         if (todo.id === id) {
+            return {
+               ...todo,
+               completed
+            }
+         }
+         return todo
+      })
       setTodos(newTodos)
    }
 
    return (
       <TodosContext.Provider value={{
          todos,
-         handleRemove
+         handleRemove,
+         handleComplete
       }}>
          {children}
       </TodosContext.Provider>
