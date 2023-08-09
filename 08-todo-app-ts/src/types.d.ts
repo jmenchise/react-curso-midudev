@@ -7,12 +7,11 @@ export interface Todo {
 
 export type ListOfTodos = Todo[]
 
-export type ContextHandleRemoveType = ({ id }: Pick<Todo, 'id'>) => void
+export type HandleRemoveType = ({ id }: Pick<Todo, 'id'>) => void
 
-export type ContextHandleCompleteType = ({ id, completed }: Pick<Todo, 'id' | 'completed'>) => void
+export type HandleCompleteType = ({ id, completed }: Pick<Todo, 'id' | 'completed'>) => void
 
 export interface Context {
    todos: ListOfTodos
-   handleRemove: ContextHandleRemoveType
-   handleComplete: ContextHandleCompleteType
+   setTodos: Dispatch<SetStateAction>
 }

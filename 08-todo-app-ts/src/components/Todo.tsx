@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/indent */
-import { useContext } from 'react'
-import { TodosContext } from '../context/TodosProvider'
-import { type Context, type Todo as TodoType } from '../types'
+import { type Todo as TodoType } from '../types'
+import useTodos from '../hooks/useTodos'
 
 const Todo = ({ id, title, completed }: TodoType): JSX.Element => {
-   const { handleRemove, handleComplete } = useContext<Context>(TodosContext)
+   const { handleRemove, handleComplete } = useTodos()
    return (
       <div className="view">
          <input

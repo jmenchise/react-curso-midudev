@@ -1,11 +1,9 @@
 /* eslint-disable indent */
-import { useContext } from 'react'
 import { Todos } from './components/Todos'
-import { TodosContext } from './context/TodosProvider'
-import { type Context } from './types'
+import useTodos from './hooks/useTodos'
 
 const App = (): JSX.Element => {
-  const { todos } = useContext<Context>(TodosContext)
+  const { todos } = useTodos()
   return (
     <div className="todoapp">
       <Todos
