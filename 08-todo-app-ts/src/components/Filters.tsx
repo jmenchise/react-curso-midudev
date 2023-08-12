@@ -1,29 +1,26 @@
 /* eslint-disable @typescript-eslint/indent */
 import React from 'react'
-import { type TODO_FILTERS, FILTERS_BUTTONS } from '../consts'
+import { FILTERS_BUTTONS } from '../consts'
+import { type FilterValue } from '../types'
+import useFilters from '../hooks/useFilters'
 
-interface Props {
-   filterSelected: typeof TODO_FILTERS[keyof typeof TODO_FILTERS]
-}
-
-const Filters: React.FC<Props> = () => {
+const Filters: React.FC = () => {
+   const { filterSelected, handleFilterChange } = useFilters()
    return (
       <ul className="filters">
-         <li>
-            <a>
-               Todos
-            </a>
-         </li>
-         <li>
-            <a>
-               Activos
-            </a>
-         </li>
-         <li>
-            <a>
-               Completados
-            </a>
-         </li>
+         {Object.entries(FILTERS_BUTTONS).map(([key, { literal, href }]) => (
+            <li className={key === filterSelected ? 'selected' : ''} key={key}>
+               <a
+                  href={href}
+                  onClick={e => {
+                     e.preventDefault()
+                     handleFilterChange(key as FilterValue)
+                  }}
+               >
+                  {literal}
+               </a>
+            </li>
+         ))}
       </ul>
    )
 }
