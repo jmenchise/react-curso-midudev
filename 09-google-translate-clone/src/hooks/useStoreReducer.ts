@@ -77,11 +77,11 @@ export function useStoreReducer() {
       dispatch({ type: 'SET_TO_LANGUAGE', payload });
    };
 
-   const setFromText = (payload: Language) => {
+   const setFromText = (payload: string) => {
       dispatch({ type: 'SET_FROM_TEXT', payload });
    };
 
-   const setResultText = (payload: Language) => {
+   const setResultText = (payload: string) => {
       dispatch({ type: 'SET_RESULT_TEXT', payload });
    };
 
