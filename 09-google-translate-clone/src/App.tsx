@@ -42,7 +42,11 @@ function App() {
                </Stack>
             </Col>
             <Col xs='auto'>
-               <Button variant='link' disabled={fromLanguage === AUTO_LANGUAGE} onClick={interchangeLanguages}>
+               <Button
+                  variant='link'
+                  disabled={fromLanguage === AUTO_LANGUAGE}
+                  onClick={interchangeLanguages}
+               >
                   <ArrowsIcon />
                </Button>
             </Col>
