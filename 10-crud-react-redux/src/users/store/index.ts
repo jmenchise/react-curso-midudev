@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/promise-function-async */
 import { type Middleware, configureStore } from '@reduxjs/toolkit';
 import usersReducer from './slice';
+import { toast } from 'sonner';
 
 const persistanceLocalStorageMiddleware: Middleware = (store) => (next) => (action) => {
    next(action);
@@ -7,11 +9,12 @@ const persistanceLocalStorageMiddleware: Middleware = (store) => (next) => (acti
 };
 
 //* Este middleware es para realizar el fetch de datos con la DB.
-/* const syncWithDatabase: Middleware = () => (next) => (action) => {
+//* Se usa un Mock con json-server para simular la base de datos.
+const syncWithDatabase: Middleware = () => (next) => (action) => {
    const { type, payload } = action;
    next(action);
    if (type === 'users/addNewUser') {
-      fetch('http://127.0.0.1:8080', {
+      fetch('http://localhost:8080/users', {
          method: 'POST',
          body: JSON.stringify(payload),
          headers: {
@@ -25,13 +28,13 @@ const persistanceLocalStorageMiddleware: Middleware = (store) => (next) => (acti
          console.log(error);
       });
    }
-}; */
+};
 
 export const store = configureStore({
    reducer: {
       users: usersReducer
    },
-   middleware: [persistanceLocalStorageMiddleware]
+   middleware: [persistanceLocalStorageMiddleware, syncWithDatabase]
 });
 
 export type RootState = ReturnType<typeof store.getState>;
