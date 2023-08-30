@@ -1,0 +1,15 @@
+#root {
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  width: 100%;
+}
+
+.show-rows tr:nth-child(odd) {
+  background-color: hsla(0, 0%, 60%, .4);
+  box-shadow: inset 0 0 5px 2px hsla(0, 0%, 20%, .3);
+}
+
+.show-rows tr:nth-child(even) {
+  background-color: hsla(0, 0%, 60%, .6);
+}
