@@ -1,12 +1,12 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type User } from '../types';
 
 interface Props {
    users: User[]
    showRows: boolean
+   handleDelete: (email: string) => void
 }
 
-export const UsersList = ({ users, showRows }: Props) => {
+export const UsersList = ({ users, showRows, handleDelete }: Props) => {
    return (
       <table style={{ width: '100%' }}>
          <thead>
@@ -21,8 +21,8 @@ export const UsersList = ({ users, showRows }: Props) => {
          <tbody className={showRows ? 'show-rows' : ''}>
             {
                users.map(user => (
-                  <tr key={user.id.value}>
-                     <td>
+                  <tr key={user.email}>
+                     <td style={{ padding: '.3em' }}>
                         <img src={user.picture.thumbnail} alt="User Image" />
                      </td>
                      <td>
@@ -35,7 +35,7 @@ export const UsersList = ({ users, showRows }: Props) => {
                         {user.location.country}
                      </td>
                      <td>
-                        <button>Eliminar</button>
+                        <button onClick={() => { handleDelete(user.email); }}>Eliminar</button>
                      </td>
                   </tr>
                ))
