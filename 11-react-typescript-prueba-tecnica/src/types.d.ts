@@ -80,6 +80,13 @@ export interface Name {
 
 export type Title = 'Ms' | 'Mr' | 'Mademoiselle' | 'Mrs' | 'Miss' | 'Monsieur' | 'Madame';
 
+export enum SortBy {
+   NONE = 'none',
+   NAME = 'name',
+   LAST = 'last',
+   COUNTRY = 'country'
+}
+
 export interface Picture {
    large: string
    medium: string

@@ -13,3 +13,7 @@
 .show-rows tr:nth-child(even) {
   background-color: hsla(0, 0%, 60%, .6);
 }
+
+.pointer {
+  cursor: pointer;
+}
