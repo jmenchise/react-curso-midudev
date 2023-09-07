@@ -1,40 +1,31 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import './App.css';
-import { SortBy, type User } from './types.d';
+import { SortBy } from './types.d';
 import { UsersList } from './components/UsersList';
+import { useUsers } from './hooks/useUsers';
 
 function App() {
-   const [users, setUsers] = useState<User[]>([]);
+   const { isLoading, isError, users, fetchNextPage, hasNextPage, refetch } = useUsers();
    const [showRows, setShowRows] = useState(false);
    const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
    const [filterCountry, setFilterCountry] = useState<string | null>();
-   const originalUsers = useRef<User[]>([]);
+   // const originalUsers = useRef<User[]>([]);
 
    const toggleShowRows = () => setShowRows(!showRows);
 
    const handleDelete = (email: string) => {
-      const filteredUsers = users.filter(user => user.email !== email);
-      setUsers(filteredUsers);
+      // TODO: falta el borrado de un usuario
    };
 
-   const handleReset = () => setUsers(originalUsers.current);
+   const handleReset = async () => {
+      // TODO: Falta el reseteo del estado inicial.
+      await refetch();
+   };
 
    const handlechangeSort = (sort: SortBy) => {
       const newSortingValue = sorting === SortBy.NONE ? sort : SortBy.NONE;
       setSorting(newSortingValue);
    };
-
-   useEffect(() => {
-      fetch('https://randomuser.me/api/?results=100')
-         .then(async res => await res.json())
-         .then(data => {
-            setUsers(data.results);
-            originalUsers.current = data.results;
-         })
-         .catch(err => {
-            console.log(err);
-         });
-   }, []);
 
    const filteredUsers = useMemo(() => {
       return (filterCountry != null && filterCountry.length > 0)
@@ -57,7 +48,6 @@ function App() {
       if (sorting === SortBy.COUNTRY) {
          return [...filteredUsers].sort((a, b) => a.location.country.localeCompare(b.location.country));
       }
-
       return filteredUsers;
    }, [filteredUsers, sorting]);
 
@@ -83,7 +73,7 @@ function App() {
             <button onClick={() => { handlechangeSort(SortBy.COUNTRY); }}>
                {sorting === SortBy.COUNTRY ? 'No ordenar Por Pais' : 'Ordenar Por Pais'}
             </button>
-            <button onClick={handleReset}>Reestablecer estado</button>
+            <button onClick={() => { void handleReset; }}>Reestablecer estado</button>
             <input
                onChange={(e) => { setFilterCountry(e.target.value); }}
                type="text"
@@ -91,14 +81,25 @@ function App() {
             />
          </header>
          <main>
-            <UsersList
-               showRows={showRows}
-               users={sortedUsers}
-               handleDelete={handleDelete}
-               handleSort={handlechangeSort}
-            />
+            {users.length > 0 &&
+               <>
+                  <UsersList
+                     showRows={showRows}
+                     users={sortedUsers}
+                     handleDelete={handleDelete}
+                     handleSort={handlechangeSort}
+                  />
+                  {(hasNextPage === true)
+                     ? < button onClick={() => { void fetchNextPage(); }}>Cargar más resultados</button>
+                     : <p>No hay más resultados.</p>
+                  }
+               </>
+            }
+            {isLoading && <p>Cargando...</p>}
+            {isError && <p>Ha habido un error!</p>}
+            {!isLoading && !isError && users.length === 0 && <p>No hay usuarios.</p>}
          </main>
-      </div>
+      </div >
    );
 }
 
