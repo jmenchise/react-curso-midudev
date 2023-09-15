@@ -3,7 +3,7 @@ import { useQuuestionsStore } from './store/questions';
 
 export function Start() {
    const fetchQuestions = useQuuestionsStore(state => state.fetchQuestions);
-   const handleClick = () => fetchQuestions(5);
+   const handleClick = () => fetchQuestions(8);
    return (
       <Button onClick={handleClick} variant='contained'>
          ¡Empezar!
