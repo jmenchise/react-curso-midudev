@@ -4,6 +4,6 @@ export interface Question {
    code: string
    answers: string[]
    correctAnswer: number
-   userSelectedAnswer?: number
    isCorrectUserAnswer?: boolean
+   userSelectedAnswer?: number //* indica la respuesta que eligió el usuario.
 };

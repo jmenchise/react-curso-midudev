@@ -2,11 +2,11 @@ import { Container, Stack, Typography } from '@mui/material';
 import './App.css';
 import { JavaScriptLogo } from './components/JavaScriptLogo';
 import { Start } from './Start';
-import { useQuuestionsStore } from './store/questions';
+import { useQuestionsStore } from './store/questions';
+import { Game } from './components/Game';
 
 function App() {
-   const questions = useQuuestionsStore(state => state.questions);
-   console.log('questions:', questions);
+   const questions = useQuestionsStore(state => state.questions);
    return (
       <main>
          <Container maxWidth='sm'>
@@ -21,7 +21,8 @@ function App() {
                   JavaScript Quiz
                </Typography>
             </Stack>
-            <Start />
+            {questions.length === 0 && <Start />}
+            {questions.length > 0 && <Game />}
          </Container>
       </main >
    );
