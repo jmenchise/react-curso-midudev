@@ -5,7 +5,7 @@ import { Start } from './Start';
 import { useQuestionsStore } from './store/questions';
 import { Game } from './components/Game';
 
-function App() {
+const App = () => {
    const questions = useQuestionsStore(state => state.questions);
    return (
       <main>
@@ -26,6 +26,6 @@ function App() {
          </Container>
       </main >
    );
-}
+};
 
 export default App;

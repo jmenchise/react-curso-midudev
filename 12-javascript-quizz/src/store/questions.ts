@@ -1,14 +1,18 @@
 import { create } from 'zustand';
 import { type Question } from '../types';
-
+import confetti from 'canvas-confetti';
+import { persist, devtools } from 'zustand/middleware';
 interface State {
    questions: Question[]
    currentQuestion: number
    fetchQuestions: (limit: number) => Promise<void>
    selectAnswer: (questionId: number, answerIndex: number) => void
+   goNextQuestion: () => void
+   goPreviousQuestion: () => void
+   reset: () => void
 };
 
-export const useQuestionsStore = create<State>((set, get) => ({
+export const useQuestionsStore = create<State>()(devtools(persist((set, get) => ({
    questions: [],
    currentQuestion: 0,
    fetchQuestions: async (limit: number) => {
@@ -18,6 +22,7 @@ export const useQuestionsStore = create<State>((set, get) => ({
       set({ questions });
    },
    selectAnswer: (questionId, answerIndex) => {
+      //* Con get() obtenemos el estado actual.
       const { questions } = get();
       //* Usamos el structuredClone para hacer una copia del estado.
       //* En zustand se debe hacer una copia del estado antes de modificarlo.
@@ -39,5 +44,26 @@ export const useQuestionsStore = create<State>((set, get) => ({
       };
       //* Por último, actualizamos el estado.
       set({ questions: newQuestions });
+      //* y si fue correcta, tiramos confetti para festejar xD
+      if (isCorrectUserAnswer) {
+         void confetti();
+      }
+   },
+   goNextQuestion: () => {
+      const { currentQuestion, questions } = get();
+      const nextQuestion = currentQuestion + 1;
+      if (nextQuestion < questions.length) {
+         set({ currentQuestion: nextQuestion });
+      }
+   },
+   goPreviousQuestion: () => {
+      const { currentQuestion } = get();
+      const previousQuestion = currentQuestion - 1;
+      if (previousQuestion >= 0) {
+         set({ currentQuestion: previousQuestion });
+      }
+   },
+   reset: () => {
+      set({ currentQuestion: 0, questions: [] });
    }
-}));
+}), { name: 'questions' })));

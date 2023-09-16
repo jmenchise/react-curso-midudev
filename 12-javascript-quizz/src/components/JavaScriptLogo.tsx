@@ -1,4 +1,4 @@
-export function JavaScriptLogo() {
+export const JavaScriptLogo = () => {
    return (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 630 630" width={48} height={48}>
          <rect width="630" height="630" fill="#f7df1e" />
